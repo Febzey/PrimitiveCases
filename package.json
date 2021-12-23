@@ -1,0 +1,38 @@
+{
+  "name": "cases",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "node Server/Main.js"
+  },
+  "proxy": "http://localhost:5000",
+  "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "@mantine/core": "^3.4.3",
+    "@mantine/hooks": "^3.4.3",
+    "@mantine/notifications": "^3.4.3",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.25.1",
+    "fastify-cors": "^6.0.2",
+    "fastify-static": "^4.5.0",
+    "framer-motion": "^5.5.5",
+    "mysql": "^2.18.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.2.1",
+    "react-scroll": "^1.8.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.7",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.7",
+    "vite": "^2.7.2"
+  }
+}
