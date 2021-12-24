@@ -15,7 +15,6 @@ const providerConfig = {
 }
 
 ReactDOM.render(
-
     <Auth0Provider {...providerConfig}>
       <NotificationsProvider>
           <Index/>

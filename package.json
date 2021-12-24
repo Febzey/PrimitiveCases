@@ -1,6 +1,9 @@
 {
   "name": "cases",
   "version": "0.0.0",
+  "repository": {
+    "url": "https://github.com/Febzey/PrimitiveCases"
+  },
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",

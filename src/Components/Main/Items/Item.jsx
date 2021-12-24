@@ -1,20 +1,4 @@
-import { useNotifications } from '@mantine/notifications';
-import { useAuth0 } from '@auth0/auth0-react';
-
 const Item_ = ({ props, addItemsToCarts }) => {
-    const { isAuthenticated } = useAuth0();
-    const notifications = useNotifications();
-    const Notif = (color, text) => notifications.showNotification({
-        color: color,
-        message: text,
-    });
-    
-    const handleAdd = () => {
-        if (!isAuthenticated) return Notif('red', 'Please Sign in to purchase.');
-        addItemsToCarts(props)
-        Notif('green', 'Added to cart ✔️');
-        return;
-    }
 
     return (
         <div className="max-h-[90%] md:w-4/5 bg-stone-200 w-full p-11 py-16 flex flex-col items-center justify-center gap-4 rounded-sm shadow-lg dark:bg-zinc-700 ml-auto mr-auto">
@@ -26,7 +10,7 @@ const Item_ = ({ props, addItemsToCarts }) => {
                         <div className="flex flex-col">
                             <p className="dark:text-neutral-300 font-bold text-right">${props.price}</p>
                             <button
-                                onClick={handleAdd}
+                                onClick={()=>addItemsToCarts(props)}
                                 className="active:bg-emerald-600 active:animate-bounce bg-emerald-400 py-2 px-4 font-dmSans font-semibold text-center rounded-sm cursor-pointer hover:bg-emerald-500 dark:text-neutral-100"
                             >
                                 Add to cart

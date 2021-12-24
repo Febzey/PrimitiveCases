@@ -1,24 +1,25 @@
 import CartItems from './CartItem';
 import { FaShoppingBasket } from 'react-icons/fa';
-import { useNotifications } from '@mantine/notifications';
 import { Link } from 'react-router-dom';
 const ShoppingCart = ({ cartItems, deleteAllCartItems, removeOne }) => {
-
-    const notifications = useNotifications();
-    const clearedCart = () => notifications.showNotification({
-        color: 'red',
-        message: 'Cart Cleared.',
-    });
 
     let priceArray = [];
 
     const handleDeleteFromCart = () => {
-        clearedCart();
         priceArray = [];
         return deleteAllCartItems();
     }
 
-    const arrSum = () => priceArray.reduce((a, b) => a + b, 0)
+    const filteredArr = cartItems.reduce((acc, current) => {
+        const x = acc.find(item => item.product_id === current.product_id);
+        if (!x) {
+            return acc.concat([current]);
+        } else {
+            return acc;
+        }
+    }, []);
+
+    const arrSum = () => priceArray.reduce((a, b) => {return a + b})
     cartItems.map(items => priceArray.push(items.price));
 
     return (
@@ -28,12 +29,11 @@ const ShoppingCart = ({ cartItems, deleteAllCartItems, removeOne }) => {
                 <FaShoppingBasket className="text-2xl font-dmSans dark:text-neutral-100 text-zinc-800 " />
             </div>
             <div className="ml-auto mr-auto my-5">
-                {cartItems.length !== 0
+                {filteredArr.length !== 0
                     ? <div className="flex flex-col gap-2">
                         <button onClick={handleDeleteFromCart} className="rounded bg-red-400 py-2 text-neutral-50 font-Poppins duration-200 text-xs ease-in-out transform motion-safe hover:scale-110 hover:bg-red-500">Clear Cart</button>
                         <Link
                             to="/checkout"
-                            state={{ data: cartItems }}
                             className="text-center rounded bg-emerald-500 px-6 py-3 text-neutral-50 font-Poppins duration-200 ease-in-out transform motion-safe hover:scale-110 hover:bg-emerald-600">Checkout</Link>
 
                         <div className="flex flex-col py-4">
@@ -47,8 +47,8 @@ const ShoppingCart = ({ cartItems, deleteAllCartItems, removeOne }) => {
             </div>
             <div className="flex ml-auto mr-auto items-center justify-center w-full flex-col gap-6">
                 {
-                    cartItems.length !== 0
-                        ? cartItems.map(items => (
+                    filteredArr.length !== 0
+                        ? filteredArr.map(items => (
                             <CartItems items={items} removeOne={removeOne} />
                         ))
                         : (

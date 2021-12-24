@@ -19,6 +19,7 @@ const CartItems = ({ items, removeOne }) => {
                 layout className="w-4/5 bg-neutral-400 bg-opacity-50 flex flex-col items-center justify-center gap-5 p-6 dark:text-neutral-50 font-Poppins">
                 <h1 className="ml-auto mr-auto text-xl mt-4 text-center">{items.description}</h1>
                 <img src={items.imgUrl} height="150" width="150" className="ml-auto mr-auto" />
+                {items.buyCount && <p>Buy Count: {items.buyCount}</p>}
                 <p>Price: <span className="font-semibold text-neutral-900 dark:text-sky-300 text-lg">${items.price}</span></p>
 
                 <motion.div layout className="flex flex-row gap-3">
