@@ -1,6 +1,6 @@
 const SecondBanner = () => {
     return (
-        <div className="w-full h-64 bg-indigo-200 dark:bg-zinc-800 flex items-center justify-center flex-col gap-4 px-5">
+        <div className="w-full h-[30%] bg-indigo-200 dark:bg-zinc-800 flex items-center justify-center flex-col gap-4 px-5">
 
             <div className="w-[90%] md:w-1/5 px-5 text-center font-Poppins text-neutral-700 dark:text-neutral-100">
                 <p>Subscribe to get updates on new products and limited time deals.</p>

@@ -15,7 +15,8 @@ module.exports = {
         itemsLight: "url('./src/images/itemsBgLigh.svg')",
         itemsDark: "url('./src/images/itemsBgDark.svg')",
         banner: "url('./src/images/banner.svg')",
-        bannerDark: "url('./src/images/bannerdark.svg')"
+        bannerDark: "url('./src/images/bannerdark.svg')",
+        cartItem: "url('./src/images/cartItemBg.svg')"
       }
     },
   },

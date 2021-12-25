@@ -3,13 +3,23 @@ import SecondBanner from '../Components/Main/SecondBanner';
 import MainItems from '../Components/Main/Items/MainItems';
 import SwitchCategory from "../Components/Main/SwitchCategory";
 
-const MainnPage = ({ items, addItemsToCarts, changeCategory, whichCard }) => {
+const MainnPage = ({ items, addItemsToCarts, setWhichCard, whichCard }) => {
     return (
         <div className="dark:bg-zinc-900">
-            <Banner />
-            <SecondBanner />
-            <SwitchCategory changeCategory={changeCategory} />
-            <MainItems items={items} addItemsToCarts={addItemsToCarts} whichCard={whichCard} />
+            <div className="h-[100vh]">
+                <Banner />
+                <SecondBanner />
+            </div>
+            
+            <div className="flex flex-col md:flex-row">
+
+                <SwitchCategory setWhichCard={setWhichCard} whichCard={whichCard} />
+                <MainItems items={items} addItemsToCarts={addItemsToCarts} whichCard={whichCard} />
+
+            </div>
+
+
+
         </div>
     )
 };
