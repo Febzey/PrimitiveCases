@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import LoginButton from './Login-Logout/LoginButton';
-import Dropdown_ from './Dropdown/Dropdown';
-
-import { Link } from 'react-scroll';
-import { Menu } from '@headlessui/react';
-import { FaSun, FaMoon, FaShoppingCart, FaBars } from 'react-icons/fa';
+import { FaSun, FaMoon, FaShoppingCart, FaBars, FaMobileAlt } from 'react-icons/fa';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link as Rlink} from 'react-router-dom'
+import { Link as Rlink } from 'react-router-dom'
+import LoginButton from './Login-Logout/LoginButton';
+
 const Nav = ({ changeCartState, cartItems }) => {
-    const { user } = useAuth0();
+
+    const { user, logout } = useAuth0();
+
     const [moon, setState] = useState(false);
+
     const [dropdown, setDropdown] = useState(false);
 
     const changeMode = () => {
@@ -19,50 +19,49 @@ const Nav = ({ changeCartState, cartItems }) => {
         return moon ? root.classList.add('dark') : root.classList.remove('dark');
     };
 
-    const Dropdown = async () => setDropdown(!dropdown);
     useEffect(() => setState(true), []);
 
     return (
         <div>
             <div className="fixed flex h-16 w-full dark:bg-zinc-900 bg-neutral-100 bg-opacity-75 shadow-sm backdrop-filter backdrop-blur items-center">
-                <div className="ml-10 absolute text-indigo-300 text-2xl cursor-pointer">
-                    {
-                        moon
-                            ? <FaMoon onClick={() => { changeMode() }} className="duration-300 transform motion-safe hover:scale-125" />
-                            : <FaSun onClick={() => { changeMode() }} className="duration-300 transform motion-safe hover:scale-125" />
-                    }
+
+                <div className="flex flex-row gap-2 ml-2 md:ml-12 items-center font-maven text-xl md:text-2xl text-neutral-700 dark:text-neutral-300">
+                    <h1 className="cursor-pointer"><Rlink to="/">Primitive<span className="text-sky-500">Cases</span></Rlink></h1>
+                    <FaMobileAlt className="hidden md:block" />
                 </div>
-                <ul className="hidden md:flex flex-row gap-5 items-center justify-center h-full w-full text-zinc-900 dark:text-neutral-100 font-dmSans">
-                    <li className="duration-200 ease-in dark:hover:text-neutral-400 hover:text-neutral-500 cursor-pointer"><Rlink to="/">Home</Rlink></li>
-                    <li className="duration-200 ease-in dark:hover:text-neutral-400 hover:text-neutral-500 cursor-pointer"><Link to="items" smooth={true}>Items</Link></li>
-                </ul>
-                <div className="absolute right-0 mr-10 text-zinb-900 text-zinc-800 dark:text-indigo-400 flex flex-row gap-2 items-center">
+
+                <div className="absolute right-0 mr-3 md:mr-10 text-zinb-900 text-zinc-800 dark:text-indigo-400 flex flex-row gap-2 items-center">
                     <LoginButton />
-                    {
-                        user ?
-                            <div className="flex flex-row items-center gap-2">
-                                <p>Welcome, <span className="font-semibold">{user.name}</span></p>
-                                <img src={user.picture} alt="user profile" height="40" width="40" className="rounded-full" />
-                                <Menu as="div" className="flex items-center">
-                                    <Menu.Button>
-                                        <FaBars className="text-2xl dark:text-indigo-500 cursor-pointer" onClick={Dropdown} />
-                                    </Menu.Button>
-                                    {
-                                        dropdown
-                                            ? <div><Dropdown_ changeCartState={changeCartState} /></div>
-                                            : null
-                                    }
-                                </Menu>
+                    {user &&
+                        <div className="flex flex-row items-center gap-2">
+                            <p className="hidden md:block">Welcome, <span className="font-semibold">{user.name}</span></p>
+                            <img src={user.picture} alt="user profile" height="40" width="40" className="rounded-full" />
+                                                    
+                            <div>
+                                <FaBars className="text-3xl dark:text-indigo-500 cursor-pointer duration-75 hover:text-sky-500 dark:hover:text-indigo-600" onClick={() => setDropdown(prev => !prev)} />
+                                {dropdown &&
+                                    <div className="bg-stone-100 absolute right-0 top-[3.5rem] rounded-sm shadow-lg dark:bg-zinc-700">
+                                        <ul className="flex flex-col items-left gap-1 font-dmSans">
+                                            <Rlink to="/"><li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-indigo-400 dark:hover:bg-zinc-600">Home</li></Rlink>
+                                            <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-indigo-400 dark:hover:bg-zinc-600" onClick={()=>logout()}>Sign off</li>
+                                            <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-indigo-400 dark:hover:bg-zinc-600" onClick={()=> changeCartState()}>View cart</li>
+                                        </ul>
+                                    </div>
+                                }
                             </div>
-                            : null
-                    }
-                    <div className="text-2xl cursor-pointer active:text-sky-500">
-                        {
-                            cartItems.length === 0
-                                ? <FaShoppingCart onClick={() => { changeCartState() }} />
-                                : <FaShoppingCart className="text-orange-500 animate-pulse" onClick={() => { changeCartState() }} />
-                        }
+
+                        </div>}
+
+                        {moon
+                                ? <FaMoon onClick={() => { changeMode() }} className="duration-300 transform motion-safe hover:scale-125 text-2xl cursor-pointer" />
+                                : <FaSun onClick={() => { changeMode() }} className="duration-300 transform motion-safe hover:scale-125 text-2xl cursor-pointer" />}
+
+                    <div className="cursor-pointer text-2xl">
+                        {cartItems.length === 0
+                            ? <FaShoppingCart onClick={() => changeCartState()} />
+                            : <FaShoppingCart className="text-orange-500 animate-pulse" onClick={() => changeCartState()} />}
                     </div>
+
                 </div>
             </div>
         </div>

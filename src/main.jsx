@@ -8,6 +8,8 @@ import { NotificationsProvider } from '@mantine/notifications';
 const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN
 const clientId = import.meta.env.VITE_APP_AUTH0_CLIENT_ID;
 
+//add two numbers 
+
 const providerConfig = {
   domain: domain,
   clientId: clientId,
@@ -20,5 +22,5 @@ ReactDOM.render(
           <Index/>
       </NotificationsProvider>
     </Auth0Provider>,
-  document.getElementById('root')
-)
+  document.getElementById('root') 
+);

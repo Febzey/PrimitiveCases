@@ -9,7 +9,8 @@ module.exports = {
         bebas: "'Bebas Neue', cursive",
         Poppins: "'Poppins', sans-serif",
         Russo: "'Russo One', sans-serif",
-        dmSans: "'DM Sans', sans-serif"
+        dmSans: "'DM Sans', sans-serif",
+        maven: "'Maven Pro', sans-serif"
       },
       backgroundImage: { 
         itemsLight: "url('./src/images/itemsBgLigh.svg')",

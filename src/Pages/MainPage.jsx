@@ -11,15 +11,10 @@ const MainnPage = ({ items, addItemsToCarts, setWhichCard, whichCard }) => {
                 <SecondBanner />
             </div>
             
-            <div className="flex flex-col md:flex-row">
-
+            <div className="flex flex-col md:flex-row py-24">
                 <SwitchCategory setWhichCard={setWhichCard} whichCard={whichCard} />
                 <MainItems items={items} addItemsToCarts={addItemsToCarts} whichCard={whichCard} />
-
             </div>
-
-
-
         </div>
     )
 };

@@ -5,12 +5,10 @@ const LoginButton = () => {
     return (
         <div>
             {
-                isAuthenticated
-                    ?
-                    null
-                    :
-                    <button onClick={() => { loginWithRedirect() }}>
-                        Sign in.
+                !isAuthenticated
+                    &&
+                    <button onClick={()=>loginWithRedirect()}>
+                        Sign in
                     </button>
             }
         </div>

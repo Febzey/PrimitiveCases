@@ -1,13 +1,14 @@
 
 import Nav from './Components/NavBar/Nav';
-import { useState } from 'react';
 import ShoppingCart from './Components/ShoppingCart/ShoppingCart';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useNotifications } from '@mantine/notifications';
 import MainnPage from './Pages/MainPage';
 import Footer from './Components/Footer/Footer'
-import { useEffect } from 'react';
 import Checkout from './Pages/Checkout';
+import phoneTypes from '../phoneTypes.mjs';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useNotifications } from '@mantine/notifications';
 import {
   BrowserRouter,
   Routes,
@@ -16,6 +17,14 @@ import {
 
 
 export default function Index() {
+  /**
+   * bottom right notificiations 
+   */
+   const notifications = useNotifications();
+   const notifFunction = (color, text) => notifications.showNotification({
+     color: color,
+     message: text,
+   });
 
   /**
    * Auth0 hook.
@@ -44,35 +53,8 @@ export default function Index() {
   const [whichCard, setWhichCard] = useState({
     type: 1,
     activeObject: null,
-    objectsArray: [
-      {
-        type: 1,
-        name: "Iphone XS"
-      },
-      {
-        type: 2,
-        name: "Iphone 12 / 12 pro"
-      },
-      {
-        type: 3,
-        name: "Iphone 12 Pro Max"
-      },
-      {
-        type: 4,
-        name: "Iphone 12 mini"
-      },
-      {
-        type: 5,
-        name: "Iphone X"
-      },
-      {
-        type: 6,
-        name: "Iphone XR"
-      }
-    ]
-  },
-
-  );
+    objectsArray: phoneTypes
+  });
 
   /**
    * all of the main items.
@@ -151,20 +133,11 @@ export default function Index() {
   );
 
   /**
-   * bottom right notificiations 
-   */
-  const notifications = useNotifications();
-  const notifFunction = (color, text) => notifications.showNotification({
-    color: color,
-    message: text,
-  });
-
-  /**
    * Handling opening and closing the shopping cart menu.
    */
   const changeCartState = () => {
     if (!isAuthenticated) return setNotSignedIn(true);
-    return setCartMenu(!shoppingCartMenu);
+    return setCartMenu(prev => !prev);
   }
 
   /**
@@ -199,29 +172,30 @@ export default function Index() {
   /**
    * Loading data from the database
    */
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await fetch('/api/items');
-  //     const dataa = await res.json()
-  //     return setMainItems(dataa);
-  //   })()
-  // }, []);
+  useEffect(() => {
+    // (async () => {
+    //   const res = await fetch('/api/items');
+    //   const dataa = await res.json()
+    //   return setMainItems(dataa);
+    // })()
+  }, []);
 
   return (
     <BrowserRouter>
 
       <Nav changeCartState={changeCartState} cartItems={cartItems} />
 
-      {shoppingCartMenu ? <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} /> : null}
+      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} /> }
 
-      {notSignedIn ? <div className="fixed right-5 top-20">Please sign in first.</div> : null}
+      {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
 
-      <Routes>
+      <div>
+        <Routes>
+          <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
+          <Route path="/checkout" element={<Checkout cartItems={cartItems} />} />
+        </Routes>
+      </div>
 
-        <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
-
-        <Route path="/checkout" element={<Checkout cartItems={cartItems} />} />
-      </Routes>
       <Footer />
     </BrowserRouter>
   )
