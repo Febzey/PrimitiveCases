@@ -2,6 +2,7 @@ import Banner from "../Components/Main/Banner"
 import SecondBanner from '../Components/Main/SecondBanner';
 import MainItems from '../Components/Main/Items/MainItems';
 import SwitchCategory from "../Components/Main/SwitchCategory";
+import BelowItems from "../Components/Main/BelowItems";
 
 const MainnPage = ({ items, addItemsToCarts, setWhichCard, whichCard }) => {
     return (
@@ -13,8 +14,11 @@ const MainnPage = ({ items, addItemsToCarts, setWhichCard, whichCard }) => {
             
             <div className="flex flex-col md:flex-row py-24">
                 <SwitchCategory setWhichCard={setWhichCard} whichCard={whichCard} />
-                <MainItems items={items} addItemsToCarts={addItemsToCarts} whichCard={whichCard} />
+                <MainItems items={items} addItemsToCarts={addItemsToCarts} whichCard={whichCard}/>
             </div>
+
+            <BelowItems/>
+
         </div>
     )
 };

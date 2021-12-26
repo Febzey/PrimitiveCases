@@ -8,8 +8,10 @@ const SwitchCategory = ({ setWhichCard, whichCard }) => {
     const toggleActive = (index, elementType) => {
         if (isMenuOpen) setMenuOpen(false);
         setWhichCard(prevState => prevState.type = elementType)
+        
         return setWhichCard(() => { return { ...whichCard, activeObject: whichCard.objectsArray[index] } })
     }
+
 
     const toggleActiveStyles = (index) =>
         whichCard.objectsArray[index] === whichCard.activeObject && "bg-sky-200 dark:bg-emerald-600 ";

@@ -185,7 +185,7 @@ export default function Index() {
 
       <Nav changeCartState={changeCartState} cartItems={cartItems} />
 
-      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} /> }
+      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} /> }
 
       {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
 
