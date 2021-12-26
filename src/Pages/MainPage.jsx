@@ -7,6 +7,7 @@ import BelowItems from "../Components/Main/BelowItems";
 const MainnPage = ({ items, addItemsToCarts, setWhichCard, whichCard }) => {
     return (
         <div className="dark:bg-zinc-900">
+            
             <div className="h-[100vh]">
                 <Banner />
                 <SecondBanner />

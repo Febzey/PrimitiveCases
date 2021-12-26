@@ -26,3 +26,79 @@ const phoneTypes = [
 ];
 
 export default phoneTypes;
+
+
+/**
+ * Test data
+ */
+
+
+ let testData = [
+  {
+    product_id: 1,
+    color: "clear",
+    type: 2,
+    description: "Iphone 12 red case",
+    imgUrl: "https://i.ebayimg.com/images/g/8tMAAOSw2hRhvR4M/s-l640.webp",
+    price: 6.99,
+    quantity: 1,
+  },
+  {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },
+  {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },    {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },    {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },    {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },    {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  },    {
+    product_id: 2,
+    color: "black",
+    type: 1,
+    description: "Iphone XS Max - fuck what they think case",
+    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
+    price: 15.99,
+    quantity: 2,
+  }
+]

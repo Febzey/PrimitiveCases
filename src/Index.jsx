@@ -20,16 +20,21 @@ export default function Index() {
   /**
    * bottom right notificiations 
    */
-   const notifications = useNotifications();
-   const notifFunction = (color, text) => notifications.showNotification({
-     color: color,
-     message: text,
-   });
+  const notifications = useNotifications();
+  const notifFunction = (color, text) => notifications.showNotification({
+    color: color,
+    message: text,
+  });
 
   /**
    * Auth0 hook.
    */
   const { isAuthenticated } = useAuth0();
+
+  /**
+   * all of the main items.
+   */
+  const [items, setMainItems] = useState([]);
 
   /**
    * handing the notSignedIn text if user isnt signed in.
@@ -55,82 +60,6 @@ export default function Index() {
     activeObject: null,
     objectsArray: phoneTypes
   });
-
-  /**
-   * all of the main items.
-   */
-
-  const [items, setMainItems] = useState(
-       [
-    {
-      product_id: 1,
-      color: "clear",
-      type: 2,
-      description: "Iphone 12 red case",
-      imgUrl: "https://i.ebayimg.com/images/g/8tMAAOSw2hRhvR4M/s-l640.webp",
-      price: 6.99,
-      quantity: 1,
-    },
-    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },
-    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    },    {
-      product_id: 2,
-      color: "black",
-      type: 1,
-      description: "Iphone XS Max - fuck what they think case",
-      imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-      price: 15.99,
-      quantity: 2,
-    }
-  ]
-  );
 
   /**
    * Handling opening and closing the shopping cart menu.
@@ -168,34 +97,31 @@ export default function Index() {
     return notifFunction('green', 'Added to cart ✔️');
   }
 
-
   /**
    * Loading data from the database
    */
   useEffect(() => {
-    // (async () => {
-    //   const res = await fetch('/api/items');
-    //   const dataa = await res.json()
-    //   return setMainItems(dataa);
-    // })()
+    (async () => {
+      const res = await fetch('/api/items');
+      const dataa = await res.json()
+      return setMainItems(dataa);
+    })()
   }, []);
 
+  /**
+   * Rendering app
+   */
   return (
     <BrowserRouter>
-
       <Nav changeCartState={changeCartState} cartItems={cartItems} />
-
-      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} /> }
-
+      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} />}
       {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
-
       <div>
         <Routes>
           <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
           <Route path="/checkout" element={<Checkout cartItems={cartItems} />} />
         </Routes>
       </div>
-
       <Footer />
     </BrowserRouter>
   )
