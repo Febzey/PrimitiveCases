@@ -48,6 +48,11 @@ export default function Index() {
   const [shoppingCartMenu, setCartMenu] = useState(false);
 
   /**
+   * controlling dropdown menu in navbar
+   */
+  const [dropdown, setDropdown] = useState(false);
+
+  /**
    * Items in the cart.
    */
   const [cartItems, setItems] = useState(new Map());
@@ -123,10 +128,26 @@ export default function Index() {
     return
   };
 
+
+  const [moon, setDarkMode] = useState();
+  const changeMode = () => {
+    moon ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
+    setDarkMode(!moon);
+  }
   /**
    * Loading data from the database
    */
   useEffect(() => {
+
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+      setDarkMode(false);
+    } else {
+      setDarkMode(true)
+      document.documentElement.classList.remove('dark')
+
+    }
+
     (async () => {
       const res = await fetch('/api/items');
       const dataa = await res.json()
@@ -137,13 +158,13 @@ export default function Index() {
   /**
    * Rendering app 
    */
-  const [dropdown, setDropdown] = useState(false);
+
   return (
     <BrowserRouter>
-      <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} />
+      <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} moon={moon} changeMode={changeMode} />
       {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} totalPriceAndItems={totalPriceAndItems} />}
       {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
-      <div onClick={()=>dropdown&&setDropdown(false)}>
+      <div onClick={() => dropdown && setDropdown(false)}>
         <Routes>
           <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
           <Route path="/checkout" element={<Checkout cartItems={cartItems} removeOne={removeOne} totalPriceAndItems={totalPriceAndItems} />} />

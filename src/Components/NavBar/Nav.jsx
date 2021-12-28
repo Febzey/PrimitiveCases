@@ -1,23 +1,11 @@
-import { useState, useEffect } from 'react';
 import { FaSun, FaMoon, FaShoppingCart, FaBars, FaMobileAlt } from 'react-icons/fa';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link as Rlink } from 'react-router-dom'
 import LoginButton from './Login-Logout/LoginButton';
 
-const Nav = ({ changeCartState, cartItems, dropdown, setDropdown }) => {
+const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMode }) => {
 
     const { user, logout } = useAuth0();
-    const [moon, setState] = useState(false);
-
-    const changeMode = () =>
-        setState(moon => {
-            moon ? window.document.documentElement.classList.add('dark')
-                 : window.document.documentElement.classList.remove('dark')
-            return !moon
-        });
-
-
-    useEffect(() => setState(true), []);
 
     return (
         <div>
