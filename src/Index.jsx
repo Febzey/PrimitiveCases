@@ -1,10 +1,9 @@
-
 import Nav from './Components/NavBar/Nav';
 import ShoppingCart from './Components/ShoppingCart/ShoppingCart';
 import MainnPage from './Pages/MainPage';
 import Footer from './Components/Footer/Footer'
 import Checkout from './Pages/Checkout';
-import phoneTypes from '../phoneTypes.mjs';
+import { phoneTypes, testData } from '../phoneTypes.mjs';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -17,6 +16,8 @@ import {
 
 
 export default function Index() {
+
+
   /**
    * bottom right notificiations 
    */
@@ -34,7 +35,7 @@ export default function Index() {
   /**
    * all of the main items.
    */
-  const [items, setMainItems] = useState([]);
+  const [items, setMainItems] = useState(testData);
 
   /**
    * handing the notSignedIn text if user isnt signed in.
@@ -49,7 +50,15 @@ export default function Index() {
   /**
    * Items in the cart.
    */
-  const [cartItems, setItems] = useState([]);
+  const [cartItems, setItems] = useState(new Map());
+
+  /**
+   * total price for shopping cart items.
+   */
+  const [totalPriceAndItems, setTotalPriceAndItems] = useState({
+      totalPrice: 0,
+      totalItems: 0
+  });
 
   /**
    * Which category state, for main page.
@@ -72,10 +81,52 @@ export default function Index() {
   /**
    * Delete single item from shopping cart.
    */
-  const removeOne = (items) => {
+  const removeOne = items => {
     notifFunction('red', `removed ${items.description} from cart.`)
-    items.buyCount = 0;
-    return setItems(cartItems.filter(item => item.product_id !== items.product_id))
+
+    setTotalPriceAndItems(prevState => {return {totalPrice: prevState.totalPrice - items.price, totalItems: prevState.totalItems - 1}});
+
+    setItems(currentCartItems => {
+      if (!currentCartItems.has(items.product_id)) return;
+
+      const fromMap = currentCartItems.get(items.product_id)
+
+      fromMap.buyCount--;
+
+      if (fromMap.buyCount == 0) {
+        currentCartItems.delete(items.product_id);
+
+        return new Map([...currentCartItems]);
+
+      }
+
+      return currentCartItems.set(items.product_id, fromMap);
+
+    })
+
+  }
+
+  /**
+   * Function to add items to the cart.
+   */
+  const addItemsToCarts = async theItem => {
+    if (!isAuthenticated) return notifFunction('red', 'Please Sign in to purchase.');
+    notifFunction('green', 'Added to cart ✔️');
+
+    setTotalPriceAndItems(prevState => {return {totalPrice: prevState.totalPrice + theItem.price, totalItems: prevState.totalItems + 1}});
+
+    return setItems(currentCartItems => {
+
+      if (currentCartItems.has(theItem.product_id)) {
+        return currentCartItems.set(theItem.product_id, {
+          ...theItem,
+          buyCount: ++currentCartItems.get(theItem.product_id).buyCount
+        })
+      }
+
+      else return currentCartItems.set(theItem.product_id, { ...theItem, buyCount: 1 })
+
+    })
   }
 
   /**
@@ -83,38 +134,29 @@ export default function Index() {
    */
   const deleteAllCartItems = () => {
     notifFunction('red', 'Cart Cleared.')
-    cartItems.map(item => item.buyCount = 0);
-    return setItems([])
+    setItems(new Map());
+    setTotalPriceAndItems({totalPrice: 0, totalItems: 0});
+    return
   };
-
-  /**
-   * Function to add items to the cart.
-   */
-  const addItemsToCarts = async (theItem) => {
-    if (!isAuthenticated) return notifFunction('red', 'Please Sign in to purchase.');
-    theItem.buyCount ? theItem.buyCount++ : theItem.buyCount = 1;
-    setItems(cartItems => [...cartItems, theItem])
-    return notifFunction('green', 'Added to cart ✔️');
-  }
 
   /**
    * Loading data from the database
    */
   useEffect(() => {
-    (async () => {
-      const res = await fetch('/api/items');
-      const dataa = await res.json()
-      return setMainItems(dataa);
-    })()
+    // (async () => {
+    //   const res = await fetch('/api/items');
+    //   const dataa = await res.json()
+    //   return setMainItems(dataa);
+    // })()
   }, []);
 
   /**
-   * Rendering app
+   * Rendering app 
    */
   return (
     <BrowserRouter>
       <Nav changeCartState={changeCartState} cartItems={cartItems} />
-      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} />}
+      {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} totalPriceAndItems={totalPriceAndItems} />}
       {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
       <div>
         <Routes>

@@ -1,4 +1,4 @@
-const phoneTypes = [
+export const phoneTypes = [
   {
     type: 1,
     name: "Iphone XS"
@@ -25,15 +25,13 @@ const phoneTypes = [
   }
 ];
 
-export default phoneTypes;
-
 
 /**
  * Test data
  */
 
 
- let testData = [
+export const testData = [
   {
     product_id: 1,
     color: "clear",
@@ -52,53 +50,4 @@ export default phoneTypes;
     price: 15.99,
     quantity: 2,
   },
-  {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  },    {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  },    {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  },    {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  },    {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  },    {
-    product_id: 2,
-    color: "black",
-    type: 1,
-    description: "Iphone XS Max - fuck what they think case",
-    imgUrl: "https://cdn.discordapp.com/attachments/923337255882481735/923461477027938334/blackcase.png",
-    price: 15.99,
-    quantity: 2,
-  }
 ]
