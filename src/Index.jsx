@@ -35,7 +35,7 @@ export default function Index() {
   /**
    * all of the main items.
    */
-  const [items, setMainItems] = useState(testData);
+  const [items, setMainItems] = useState([]);
 
   /**
    * handing the notSignedIn text if user isnt signed in.
@@ -56,8 +56,8 @@ export default function Index() {
    * total price for shopping cart items.
    */
   const [totalPriceAndItems, setTotalPriceAndItems] = useState({
-      totalPrice: 0,
-      totalItems: 0
+    totalPrice: 0,
+    totalItems: 0
   });
 
   /**
@@ -83,49 +83,33 @@ export default function Index() {
    */
   const removeOne = items => {
     notifFunction('red', `removed ${items.description} from cart.`)
-
-    setTotalPriceAndItems(prevState => {return {totalPrice: prevState.totalPrice - items.price, totalItems: prevState.totalItems - 1}});
-
+    setTotalPriceAndItems(prevState => { return { totalPrice: prevState.totalPrice - items.price, totalItems: prevState.totalItems - 1 } });
     setItems(currentCartItems => {
       if (!currentCartItems.has(items.product_id)) return;
-
       const fromMap = currentCartItems.get(items.product_id)
-
       fromMap.buyCount--;
-
       if (fromMap.buyCount == 0) {
         currentCartItems.delete(items.product_id);
-
         return new Map([...currentCartItems]);
-
       }
-
       return currentCartItems.set(items.product_id, fromMap);
-
     })
-
   }
-
   /**
    * Function to add items to the cart.
    */
   const addItemsToCarts = async theItem => {
     if (!isAuthenticated) return notifFunction('red', 'Please Sign in to purchase.');
     notifFunction('green', 'Added to cart ✔️');
-
-    setTotalPriceAndItems(prevState => {return {totalPrice: prevState.totalPrice + theItem.price, totalItems: prevState.totalItems + 1}});
-
+    setTotalPriceAndItems(prevState => { return { totalPrice: prevState.totalPrice + theItem.price, totalItems: prevState.totalItems + 1 } });
     return setItems(currentCartItems => {
-
       if (currentCartItems.has(theItem.product_id)) {
         return currentCartItems.set(theItem.product_id, {
           ...theItem,
           buyCount: ++currentCartItems.get(theItem.product_id).buyCount
         })
       }
-
       else return currentCartItems.set(theItem.product_id, { ...theItem, buyCount: 1 })
-
     })
   }
 
@@ -135,7 +119,7 @@ export default function Index() {
   const deleteAllCartItems = () => {
     notifFunction('red', 'Cart Cleared.')
     setItems(new Map());
-    setTotalPriceAndItems({totalPrice: 0, totalItems: 0});
+    setTotalPriceAndItems({ totalPrice: 0, totalItems: 0 });
     return
   };
 
@@ -143,25 +127,26 @@ export default function Index() {
    * Loading data from the database
    */
   useEffect(() => {
-    // (async () => {
-    //   const res = await fetch('/api/items');
-    //   const dataa = await res.json()
-    //   return setMainItems(dataa);
-    // })()
+    (async () => {
+      const res = await fetch('/api/items');
+      const dataa = await res.json()
+      return setMainItems(dataa);
+    })()
   }, []);
 
   /**
    * Rendering app 
    */
+  const [dropdown, setDropdown] = useState(false);
   return (
     <BrowserRouter>
-      <Nav changeCartState={changeCartState} cartItems={cartItems} />
+      <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} />
       {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} totalPriceAndItems={totalPriceAndItems} />}
       {notSignedIn && <div className="fixed right-5 top-20">Please sign in first.</div>}
-      <div>
+      <div onClick={()=>dropdown&&setDropdown(false)}>
         <Routes>
           <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
-          <Route path="/checkout" element={<Checkout cartItems={cartItems} />} />
+          <Route path="/checkout" element={<Checkout cartItems={cartItems} removeOne={removeOne} totalPriceAndItems={totalPriceAndItems} />} />
         </Routes>
       </div>
       <Footer />
