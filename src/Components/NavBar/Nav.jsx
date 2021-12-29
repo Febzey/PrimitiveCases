@@ -5,7 +5,7 @@ import LoginButton from './Login-Logout/LoginButton';
 
 const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMode }) => {
 
-    const { user, logout } = useAuth0();
+    const { user, logout, } = useAuth0();
 
     return (
         <div>
@@ -32,8 +32,7 @@ const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMo
                                             <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => { setDropdown(false), logout() }}>Sign off</li>
                                             <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => { setDropdown(false), changeCartState() }}>View cart</li>
                                         </ul>
-                                    </div>
-                                }
+                                    </div>}
                             </div>
 
                         </div>}

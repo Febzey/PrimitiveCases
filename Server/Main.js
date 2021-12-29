@@ -1,25 +1,38 @@
-const fastify = require('fastify')({ logger: true })
-const routes = require('./Routes/routes.js');
+const express = require('express')
+const router = express.Router()
 const path = require('path');
+const cors = require('cors')
+const app = express();
 
-fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, '../dist')
+const routes = require('./Routes/routes.js');
 
-  })
-fastify.get('/', async (request, reply) => {
-    reply.sendFile('index.html')
+
+app.use(cors())
+
+app.use('/', express.static(path.join(__dirname, '../dist')))
+
+app.use(router);
+
+routes.forEach(({method, url, handler, auth}) => {
+
+    if(auth) {
+        console.log(url)
+        console.log(auth)
+        app.get(url, auth, handler) 
+    }
+
+    switch(method) {
+        case "GET":
+            app.get(url, handler)
+            break;
+    }
+
 })
-
-
-
-
-routes.forEach(item => fastify.route(item))
-
+ 
 const start = async () => {
     try {
-        await fastify.listen(3000)
+        app.listen(3000, () => console.log("Listening on http://localhost:3000"))
     } catch (err) {
-        fastify.log.error(err)
         process.exit(1)
     }
 }

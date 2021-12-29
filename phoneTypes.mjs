@@ -22,6 +22,10 @@ export const phoneTypes = [
   {
     type: 6,
     name: "Iphone XR"
+  },
+  {
+    type: 7,
+    name: "Samsung s20"
   }
 ];
 
