@@ -3,30 +3,20 @@ const router = express.Router()
 const path = require('path');
 const cors = require('cors')
 const app = express();
-
 const routes = require('./Routes/routes.js');
-
 
 app.use(cors())
 
 app.use('/', express.static(path.join(__dirname, '../dist')))
-
 app.use(router);
 
 routes.forEach(({method, url, handler, auth}) => {
-
-    if(auth) {
-        console.log(url)
-        console.log(auth)
-        app.get(url, auth, handler) 
-    }
-
+    if(auth) app.get(url, auth, handler) 
     switch(method) {
         case "GET":
             app.get(url, handler)
             break;
     }
-
 })
  
 const start = async () => {
