@@ -12,7 +12,7 @@ export default function HandleDelete() {
     const handleDelete = async () => {
         const Value = inputValue.value
         try {
-            const response = await fetch('http://localhost:3000/api/delete', {
+            const response = await fetch('/api/delete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify([Value])

@@ -153,7 +153,7 @@ export default function Index() {
 
     (async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/items');
+        const res = await fetch('/api/items');
         const dataa = await res.json()
         return setMainItems(dataa);
       }
@@ -168,7 +168,7 @@ export default function Index() {
       console.log("getAdminRoute function ran")
       try {
         const token = await getAccessTokenSilently();
-        const response = await fetch(`http://localhost:3000/api/admin`, {
+        const response = await fetch(`/api/admin`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

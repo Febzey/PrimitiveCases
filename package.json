@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "serve": "node Server/Main.js"
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:3005",
   "dependencies": {
     "@auth0/auth0-react": "^1.8.0",
     "@headlessui/react": "^1.4.2",

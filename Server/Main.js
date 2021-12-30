@@ -10,9 +10,9 @@ const jsonParser = bodyParser.json();
 
 const urlEncodedParser = bodyParser.urlencoded({extended: true});
 
-app.use(cors())
+//app.use(cors())
 app.use(bodyParser.json({limit: '20mb'}));
-app.use('/', express.static(path.join(__dirname, '../dist')))
+app.use('/',express.static(path.join(__dirname, '../dist')))
 app.use(router);
 
 routes.forEach(({method, url, handler, auth}) => {
@@ -29,7 +29,7 @@ routes.forEach(({method, url, handler, auth}) => {
  
 const start = async () => {
     try {
-        app.listen(3000, () => console.log("Listening on http://localhost:3000"))
+        app.listen(3005, () => console.log("Listening on http://localhost:3005"))
     } catch (err) {
         process.exit(1)
     }
