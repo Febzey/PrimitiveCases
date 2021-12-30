@@ -15,7 +15,6 @@ const Checkout = ({ cartItems, removeOne, totalPriceAndItems }) => {
 
     for (const [key, value] of cartItems) CartItemsArray.push(value);
 
-
     return (
         <div className="w-full p-5 min-h-screen py-56 dark:bg-zinc-800">
             <div className="ml-auto mr-auto flex items-center justify-center w-full flex-col gap-3 ">

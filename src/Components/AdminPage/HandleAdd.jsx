@@ -67,11 +67,13 @@ export default function HandleAdd() {
     };
 
     return (
-        <div className="flex items-center justify-center flex-col dark:text-neutral-100 shadow-lg dark:bg-zinc-800 w-3/4 mx-auto pt-14 py-32 mb-20 text-neutral-700">
+        <div className="flex items-center justify-center flex-col dark:text-neutral-100 shadow-lg dark:bg-zinc-800 w-full md:w-3/4 mx-auto pt-14 py-32 mb-20 text-neutral-700">
 
-            <h1 className="text-3xl underline underline-offset-2 decoration-lg decoration-sky-500">Uploading an item</h1>
-            <p className="pt-1 text-sm dark:text-neutral-400">Remember, what you put here will be on the live website for people to see</p>
-            <p className="dark:text-neutral-100 pb-20">Max image file size: 20mb</p>
+            <div className="flex flex-col items-center justify-center mx-auto px-8">
+                <h1 className="text-3xl underline underline-offset-2 decoration-lg decoration-sky-500 text-center">Uploading an item</h1>
+                <p className="pt-1 text-sm dark:text-neutral-400 text-center">Remember, what you put here will be on the live website for people to see</p>
+                <p className="dark:text-neutral-100 pb-20">Max image file size: 20mb</p>
+            </div>
 
             <div className="flex flex-col items-center md:flex-row md:gap-3 gap-8">
                 {itemOptions.image &&
@@ -80,7 +82,6 @@ export default function HandleAdd() {
                         <button className="bg-red-400 text-neutral-50 p-1 font-dmSans rounded-sm w-[40%] text-xs" onClick={() => setSelectedImage(prev => { return { ...prev, image: null } })}>Remove Image</button>
                     </div>
                 }
-
                 <div className="flex flex-col gap-4">
                     <input type="file" name="myImage" onChange={(event) => setSelectedImage(prev => { return { ...prev, image: event.target.files[0] } })} />
                     <input className="bg-neutral-100 rounded-sm py-2 px-4 dark:text-zinc-600" type="text" placeholder="Item Description/Name" onChange={event => setSelectedImage(prev => { return { ...prev, description: event.target.value } })}></input>
@@ -97,8 +98,6 @@ export default function HandleAdd() {
                     itemIsGood.itemCheckPassed === true ? <p className="dark:text-neutral-100">Item looks good.</p>
                         : itemIsGood.itemCheckPassed === false && <p className="dark:text-neutral-100">Seems you are missing a few arguments or you entered something incorrectly.</p>
                 }
-
-
                 {
                     itemIsGood.itemIsLoading === true ? <FaSpinner className="mx-auto text-4xl dark:text-indigo-500 animate-spin" />
                         : itemIsGood.itemIsLoading === false ? <p className="mx-auto text-neutral-400">Item uploaded successfully! <span className="font-semibold">Product ID: {itemIsGood.product_id}</span></p>

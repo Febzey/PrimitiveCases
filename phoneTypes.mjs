@@ -34,7 +34,6 @@ export const phoneTypes = [
  * Test data
  */
 
-
 export const testData = [
   {
     product_id: 1,

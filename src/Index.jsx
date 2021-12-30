@@ -15,9 +15,7 @@ import {
 } from 'react-router-dom';
 import AdminPanel from './Pages/AdminPanel';
 
-
 export default function Index() {
-
 
   /**
    * bottom right notificiations 
@@ -101,6 +99,7 @@ export default function Index() {
       return currentCartItems.set(items.product_id, fromMap);
     })
   }
+  
   /**
    * Function to add items to the cart.
    */
