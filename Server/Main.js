@@ -4,17 +4,25 @@ const path = require('path');
 const cors = require('cors')
 const app = express();
 const routes = require('./Routes/routes.js');
+const bodyParser = require('body-parser');
+
+const jsonParser = bodyParser.json();
+
+const urlEncodedParser = bodyParser.urlencoded({extended: true});
 
 app.use(cors())
-
+app.use(bodyParser.json({limit: '20mb'}));
 app.use('/', express.static(path.join(__dirname, '../dist')))
 app.use(router);
 
 routes.forEach(({method, url, handler, auth}) => {
-    if(auth) app.get(url, auth, handler) 
+    if(auth) app.get(url, auth, handler)     
     switch(method) {
         case "GET":
             app.get(url, handler)
+            break;
+        case "POST":
+            app.post(url,jsonParser, handler)
             break;
     }
 })

@@ -1,6 +1,8 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
+const jwtAuthz = require('express-jwt-authz');
+
 const authorizeAccessToken = jwt({
     secret: jwksRsa.expressJwtSecret({
         cache: true,
@@ -14,4 +16,13 @@ const authorizeAccessToken = jwt({
 });
 
 
-module.exports = authorizeAccessToken;
+const checkAdminRole = jwtAuthz(["read:messages"], {
+    customScopeKey: "permissions",
+    checkallScope: true,
+});
+
+
+module.exports = {
+    authorizeAccessToken,
+    checkAdminRole
+};

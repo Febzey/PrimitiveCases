@@ -13,7 +13,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import Auth from './Pages/Auth';
+import AdminPanel from './Pages/AdminPanel';
 
 
 export default function Index() {
@@ -31,7 +31,7 @@ export default function Index() {
   /**
    * Auth0 hook.
    */
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   /**
    * all of the main items.
@@ -138,6 +138,9 @@ export default function Index() {
   /**
    * Loading data from the database
    */
+
+  const [userIsAdmin, setAdminState] = useState(false);
+
   useEffect(() => {
 
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -159,22 +162,49 @@ export default function Index() {
         console.log(error)
       }
     })()
+
+
+    const getAdminRoute = async () => {
+
+      console.log("getAdminRoute function ran")
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await fetch(`http://localhost:3000/api/admin`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const responseData = await response.json();
+        setAdminState(responseData.admin);
+
+      }
+      catch (error) {
+        setAdminState(false);
+      }
+    };
+    getAdminRoute();
+
   }, []);
+
 
   /**
    * Rendering app 
    */
 
   return (
-    <BrowserRouter>
-      <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} moon={moon} changeMode={changeMode} />
+    <BrowserRouter> 
+      <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} moon={moon} changeMode={changeMode} userIsAdmin={userIsAdmin} />
       {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} totalPriceAndItems={totalPriceAndItems} />}
       {notSignedIn && <div className="fixed right-5 top-20 dark:text-zinc-200">Please sign in first.</div>}
-      <div onClick={() => dropdown && setDropdown(false)}>
+      <div onClick={() => dropdown && setDropdown(false)} className="dark:bg-zinc-800">
         <Routes>
           <Route path="/" element={<MainnPage items={items} addItemsToCarts={addItemsToCarts} setWhichCard={setWhichCard} whichCard={whichCard} />} />
           <Route path="/checkout" element={<Checkout cartItems={cartItems} removeOne={removeOne} totalPriceAndItems={totalPriceAndItems} />} />
-          <Route path="/test-auth" element={<Auth/>}/>
+
+          {
+            userIsAdmin && <Route path="/admin" element={<AdminPanel />} />
+          }
+
         </Routes>
       </div>
       <Footer />

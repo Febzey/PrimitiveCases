@@ -19,8 +19,27 @@ const routes = [
         method: 'GET',
         url: '/api/protected',
         json: true,
-        auth: auth.authorizeAccessToken,
+        auth: [auth.authorizeAccessToken],
         handler: routeController.getProtectedRoute
+    },
+    {
+        method: 'GET',
+        url: '/api/admin',
+        json: true,
+        auth: [auth.authorizeAccessToken, auth.checkAdminRole],
+        handler: routeController.getAdminRoute
+    },
+    {
+        method: 'POST',
+        url: '/api/upload',
+        json: true,
+        handler: itemController.getUploadItem
+    },
+    {
+        method: 'POST',
+        url: '/api/delete',
+        json: true,
+        handler: itemController.getDeleteItem
     }
 ]
 module.exports = routes;

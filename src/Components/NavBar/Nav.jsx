@@ -3,13 +3,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link as Rlink } from 'react-router-dom'
 import LoginButton from './Login-Logout/LoginButton';
 
-const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMode }) => {
+const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMode, userIsAdmin }) => {
 
-    const { user, logout, } = useAuth0();
+    const { user, logout } = useAuth0();
 
     return (
-        <div>
-            <div className="fixed flex h-16 w-full dark:bg-zinc-900 bg-neutral-100 bg-opacity-75 shadow-sm backdrop-filter backdrop-blur items-center">
+        <>
+            <div className="fixed flex h-16 w-full bg-none items-center">
 
                 <div className="flex flex-row gap-2 ml-2 md:ml-12 items-center font-maven text-xl md:text-2xl text-neutral-700 dark:text-neutral-300">
                     <h1 className="cursor-pointer"><Rlink to="/">Primitive<span className="text-sky-500">Cases</span></Rlink></h1>
@@ -31,6 +31,11 @@ const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMo
                                             <Rlink to="/"><li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => setDropdown(false)}>Home</li></Rlink>
                                             <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => { setDropdown(false), logout() }}>Sign off</li>
                                             <li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => { setDropdown(false), changeCartState() }}>View cart</li>
+                                            {
+                                                userIsAdmin &&
+                                                <Rlink to="/admin"><li className="text-neutral-600 hover:bg-gray-300 w-full px-6 py-2 cursor-pointer dark:text-neutral-200 dark:hover:bg-zinc-600" onClick={() => { setDropdown(false) }}>Admin Panel</li></Rlink>
+
+                                            }
                                         </ul>
                                     </div>}
                             </div>
@@ -49,7 +54,7 @@ const Nav = ({ changeCartState, cartItems, dropdown, setDropdown, moon, changeMo
 
                 </div>
             </div>
-        </div>
+        </>
     )
 };
 

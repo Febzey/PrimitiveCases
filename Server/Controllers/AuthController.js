@@ -9,3 +9,19 @@ exports.getProtectedRoute = (request, res) => {
         msg: "You called the protected api route!"
     });
 }
+
+exports.getAdminRoute = (request, res) => {
+
+    try {
+        res.send({
+            admin:true 
+        });
+
+    }
+
+    catch (error) {
+        console.log("Not an admin", error);
+    }
+
+
+}
