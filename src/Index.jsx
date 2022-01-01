@@ -71,8 +71,11 @@ export default function Index() {
   const [whichCard, setWhichCard] = useState({
     type: 1,
     activeObject: null,
-    objectsArray: phoneTypes
+    objectsArray: []
   });
+
+
+  //TODO: setWhichCard to phone types from json file wether that be thru express backend or whatever
 
   /**
    * Handling opening and closing the shopping cart menu.
@@ -151,16 +154,19 @@ export default function Index() {
 
     }
 
-    (async () => {
+    const getData = async () => {
       try {
-        const res = await fetch('/api/items');
+        const res = await fetch('http://localhost:3005/api/items');
         const dataa = await res.json()
-        return setMainItems(dataa);
+        setWhichCard(prev => {return{...prev, objectsArray:dataa.phoneTypes}});
+        return setMainItems(dataa.items);
       }
       catch (error) {
         console.log(error)
       }
-    })()
+    }
+
+    getData()
 
 
     const getAdminRoute = async () => {
@@ -168,7 +174,7 @@ export default function Index() {
       console.log("getAdminRoute function ran")
       try {
         const token = await getAccessTokenSilently();
-        const response = await fetch(`/api/admin`, {
+        const response = await fetch(`http://localhost:3005/api/admin`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

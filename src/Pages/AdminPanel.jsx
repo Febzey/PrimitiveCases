@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import HandleAdd from '../Components/AdminPage/HandleAdd';
 import HandleDelete from '../Components/AdminPage/HandleDelete';
-
+import HandleCategory from '../Components/AdminPage/HandleCategory';
 export default function AdminPanel() {
     const [option, setOption] = useState("");
+
     return (
         <div className="dark:bg-zinc-700 min-h-screen pb-32 border-l border-r border-zinc-300 dark:border-zinc-700 w-full md:w-[80%] mx-auto">
             <div className="dark:bg-zinc-700">
@@ -12,6 +13,7 @@ export default function AdminPanel() {
                     <div className="flex flex-col md:flex-row gap-3 mx-auto">
                         <button className="bg-sky-500 py-3 px-6 rounded-sm text-center font-dmSans text-neutral-50 font-medium cursor-pointer hover:bg-sky-600 text-xl" onClick={() => setOption("delete")}>Delete Item</button>
                         <button className="bg-sky-500 py-3 px-6 rounded-sm text-center font-dmSans text-neutral-50 font-medium cursor-pointer hover:bg-sky-600 text-xl" onClick={() => setOption("add")}>Add Item</button>
+                        <button className="bg-sky-500 py-3 px-6 rounded-sm text-center font-dmSans text-neutral-50 font-medium cursor-pointer hover:bg-sky-600 text-xl" onClick={() => setOption("category")}>Add Category</button>
                     </div>
                 </div>
                 {
@@ -19,7 +21,11 @@ export default function AdminPanel() {
                 }
 
                 {
-                    option === "delete" && <HandleDelete/>
+                    option === "delete" && <HandleDelete />
+                }
+
+                {
+                    option === "category" && <HandleCategory />
                 }
             </div>
         </div>

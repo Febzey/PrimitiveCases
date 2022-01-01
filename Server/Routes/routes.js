@@ -40,6 +40,12 @@ const routes = [
         url: '/api/delete',
         json: true,
         handler: itemController.getDeleteItem
+    },
+    {
+        method: 'POST',
+        url: '/api/createCategory',
+        json: true,
+        handler: itemController.getCreateCategory
     }
 ]
 module.exports = routes;

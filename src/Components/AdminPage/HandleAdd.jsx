@@ -19,7 +19,6 @@ export default function HandleAdd() {
         product_id: null
     });
 
-
     const getBase64 = file => {
         return new Promise(resolve => {
             let baseURL = "";
@@ -46,7 +45,7 @@ export default function HandleAdd() {
 
 
         try {
-            const response = await fetch('/api/upload', {
+            const response = await fetch('http://localhost:3005/api/upload', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify([itemOptions, base64StringImage])
