@@ -10,7 +10,7 @@ const jsonParser = bodyParser.json();
 
 const urlEncodedParser = bodyParser.urlencoded({extended: true});
 
-//app.use(cors())
+app.use(cors())
 app.use(bodyParser.json({limit: '20mb'}));
 app.use('/',express.static(path.join(__dirname, '../dist')))
 app.use(router);

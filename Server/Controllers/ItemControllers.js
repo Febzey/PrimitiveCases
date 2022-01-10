@@ -17,6 +17,8 @@ exports.getItems = async (request, response) => {
 
 
 
+
+
 exports.getUploadItem = async (req, res) => {
 
     try {
@@ -26,7 +28,7 @@ exports.getUploadItem = async (req, res) => {
         const phoneColor = req.body[0].color
         const quantity = req.body[0].quantity
         const price = req.body[0].price
-        const base64ImageString = JSON.stringify((req.body[1]));
+        const base64ImageString = JSON.stringify(req.body[1]);
 
         const filteredBase64String = base64ImageString.replace(/"/g, "");
         const getItems = await readFile('mainItems.json');
@@ -64,6 +66,10 @@ exports.getUploadItem = async (req, res) => {
         })
     }
 }
+
+
+
+
 
 exports.getDeleteItem = async (req, res) => {
 

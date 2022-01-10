@@ -3,16 +3,11 @@ import ShoppingCart from './Components/ShoppingCart/ShoppingCart';
 import MainnPage from './Pages/MainPage';
 import Footer from './Components/Footer/Footer'
 import Checkout from './Pages/Checkout';
-import { phoneTypes, testData } from '../phoneTypes.mjs';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNotifications } from '@mantine/notifications';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminPanel from './Pages/AdminPanel';
 
 export default function Index() {
@@ -74,6 +69,16 @@ export default function Index() {
     objectsArray: []
   });
 
+  /**
+   * Setting to true if the user has admin role, this is checked in express backend
+   */
+  const [userIsAdmin, setAdminState] = useState(false);
+
+  /**
+   * the state for dark / light mode
+   */
+  const [moon, setDarkMode] = useState();
+
 
   //TODO: setWhichCard to phone types from json file wether that be thru express backend or whatever
 
@@ -102,7 +107,7 @@ export default function Index() {
       return currentCartItems.set(items.product_id, fromMap);
     })
   }
-  
+
   /**
    * Function to add items to the cart.
    */
@@ -132,19 +137,60 @@ export default function Index() {
   };
 
 
-  const [moon, setDarkMode] = useState();
+  /**
+   * Changing state for dark / light mode
+   */
   const changeMode = () => {
     moon ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
     setDarkMode(!moon);
   }
+
   /**
-   * Loading data from the database
+   * Getting all items and phone types on page load.
    */
+  const getData = async () => {
+    try {
+      const res = await fetch('http://localhost:3005/api/items');
+      const dataa = await res.json()
+      setWhichCard(prev => { return { ...prev, objectsArray: dataa.phoneTypes } });
+      return setMainItems(dataa.items);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
-  const [userIsAdmin, setAdminState] = useState(false);
+  /**
+   * Checking users admin status on page load.
+   */
+  const getAdminRoute = async () => {
 
+    console.log("getAdminRoute function ran")
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`http://localhost:3005/api/admin`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const responseData = await response.json();
+      setAdminState(responseData.admin);
+
+    }
+    catch (error) {
+      setAdminState(false);
+    }
+  };
+
+  
+  /**
+   * Things that happen when page loads
+   */
   useEffect(() => {
 
+    /**
+     * Checking the users local storage for their prefered color mode
+     */
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark')
       setDarkMode(false);
@@ -154,39 +200,7 @@ export default function Index() {
 
     }
 
-    const getData = async () => {
-      try {
-        const res = await fetch('http://localhost:3005/api/items');
-        const dataa = await res.json()
-        setWhichCard(prev => {return{...prev, objectsArray:dataa.phoneTypes}});
-        return setMainItems(dataa.items);
-      }
-      catch (error) {
-        console.log(error)
-      }
-    }
-
     getData()
-
-
-    const getAdminRoute = async () => {
-
-      console.log("getAdminRoute function ran")
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await fetch(`http://localhost:3005/api/admin`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        const responseData = await response.json();
-        setAdminState(responseData.admin);
-
-      }
-      catch (error) {
-        setAdminState(false);
-      }
-    };
     getAdminRoute();
 
   }, []);
@@ -197,7 +211,7 @@ export default function Index() {
    */
 
   return (
-    <BrowserRouter> 
+    <BrowserRouter>
       <Nav changeCartState={changeCartState} cartItems={cartItems} dropdown={dropdown} setDropdown={setDropdown} moon={moon} changeMode={changeMode} userIsAdmin={userIsAdmin} />
       {shoppingCartMenu && <ShoppingCart cartItems={cartItems} deleteAllCartItems={deleteAllCartItems} removeOne={removeOne} setCartMenu={setCartMenu} totalPriceAndItems={totalPriceAndItems} />}
       {notSignedIn && <div className="fixed right-5 top-20 dark:text-zinc-200">Please sign in first.</div>}

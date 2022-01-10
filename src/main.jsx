@@ -7,6 +7,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN
 const clientId = import.meta.env.VITE_APP_AUTH0_CLIENT_ID;
 
+console.log(domain)
 const providerConfig = {
   domain: domain,
   clientId: clientId,
